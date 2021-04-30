@@ -1,0 +1,47 @@
+<% include  partials/header %>
+	<br>
+	<div class="myform">
+		<h1>Add New Product</h1>
+		<br>
+		<form action="/selling" method="POST" enctype="multipart/form-data">
+			<div>
+				<input type="text" name="product[name]" placeholder="Name" required>
+			</div>
+			<div>
+				<input type="number" name="product[pprice]" placeholder="Price" required>	
+			</div>
+			<div>
+				<center><h3>Image</h3></center>
+				<input type="file" name="image" accept="image/*" required>
+			</div>
+			<div>
+				<input type="text" name="product[des]" placeholder="Description" required>
+			</div>
+			<div>
+				<center><h3>EndDate</h3></center>
+				<input id="datefield" type="date" name="product[enddate]" required>
+			</div>
+			<div>
+				<center><h3>State:</h3></center>
+				<h3>On Sale</h3><input type="radio" name="product[state]" value="onsale" required>
+				<h3>No</h3><input type="radio" name="product[state]" value="no" required>
+			</div>
+			<button type="submit" class="btn btn-outline-dark">Submit</button>
+		</form>
+	</div>
+	<script type="text/javascript">
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth() + 1;
+		var yyyy = today.getFullYear();
+		if(dd < 10){
+			dd = '0' + dd;
+		}
+		if(mm < 10){
+			mm = '0' + mm;
+		}
+		today = yyyy + '-' + mm + '-' + dd;
+		document.getElementById("datefield").setAttribute("min", today);
+	</script>
+<% include  partials/footer %>
+ 

@@ -1,0 +1,130 @@
+<% include partials/header %>
+	<div class="row">
+		<div class="col-sm-12 col-md-6 col-lg-6">
+			<h1><center>Name: <%= product.name %></center></h1>
+			<div style="word-wrap: break-word;">
+				<center><h3>Description: <%= product.des %></h3></center>			
+			</div>
+			<div>
+				<center><h3>Price: Rs. <%= product.pprice %></h3></center>			
+			</div>
+			<div class="row" id="timer">
+				<div class="col-sm-3"><div class="mytimer" id="day"></div></div>
+				<div class="col-sm-3"><div class="mytimer" id="hr"></div></div>
+				<div class="col-sm-3"><div class="mytimer" id="min"></div></div>
+				<div class="col-sm-3"><div class="mytimer" id="sec"></div></div>
+			</div>
+		</div>	
+		<div class="col-sm-12 col-md-6 col-lg-6">
+			<img class="img-thumbnail" src="<%= product.image %>" style="margin-bottom: 10px;">
+			<div>
+				<% if(currentUser){ 
+					if(product.owner.id.equals(currentUser._id)){ %>
+						<a href="/selling/<%= product._id %>/edit" class="btn btn-warning btn-block">edit</a>
+					<% } 
+					if(product.owner.id.equals(currentUser._id) || currentUser.username === "aniket"){ %>
+						<a href="/selling/<%= product._id %>/delete" class="btn btn-danger btn-block">Delete</a>
+					<% }
+				 } %>
+			</div>	
+		</div>	
+	</div>
+
+	<% var max = product.pprice, umax = product.owner.username, umaxid = product.owner.id %>
+
+	
+	<div class="row">
+
+		<div class="col-sm-12 col-md-6 col-lg-6">
+			<div class="container">
+				<div><center><h3>BIDS</h3></center></div>
+				<div class="jumbotron scroll">
+					<% product.price.forEach(function(price){ %>
+						<div class="row">
+							<div class="col-sm-12 col-md-12 col-lg-12 con">
+								<%= price.price %> --By <%= price.owner.username %>
+								<% if(price.price > max){ max=price.price; umax=price.owner.username; umaxid=price.owner.id}%>
+								<% if(currentUser){ 
+										if(price.owner.id.equals(currentUser._id) || currentUser.username === "aniket" || currentUser._id.equals(product.owner.id)){%>
+											<a href="/selling/<%= product._id %>/price/<%= price._id %>/delete" class="btn btn-danger">Delete</a>
+										<% }
+										if(price.owner.id.equals(currentUser._id)){ %>
+											<a href="/selling/<%= product._id %>/price/<%= price._id %>/edit" class="btn btn-warning">Edit</a>
+										<% }
+								 } %>
+							</div>
+						</div>
+					<% }); %>
+				</div>
+				<a href="/selling/<%= product._id %>/price/new" class="btn btn-success btn-lg btn-block">Post Price</a>
+			</div>
+		</div>
+		
+		<div class="col-sm-12 col-md-6 col-lg-6">
+			<div class="container">
+				<div><center><h3>COMMENTS</h3></center></div>
+				<div class="jumbotron scroll">
+					<% product.comments.forEach(function(comment){ %>
+						<div class="row">
+							<div class="col-sm-12 col-md-12 col-lg-12 con">
+								<%= comment.text %> --By <%= comment.owner.username %>
+							        <% if(currentUser){ 
+											if(comment.owner.id.equals(currentUser._id) || currentUser.username === "aniket" || currentUser._id.equals(product.owner.id)){%>
+												<a href="/selling/<%= product._id %>/comment/<%= comment._id %>/delete" class="btn btn-danger">Delete</a>
+											<% }
+									   		if(comment.owner.id.equals(currentUser._id)){ %>
+												<a href="/selling/<%= product._id %>/comment/<%= comment._id %>/edit" class="btn btn-warning">Edit</a>
+										<% }
+								 	} %>
+							</div>
+						</div>
+					<% }); %>	
+				</div>
+				<a href="/selling/<%= product._id %>/comment/new" class="btn btn-success btn-lg btn-block">Post Comment</a>
+			</div>			
+		</div>
+	
+	</div>
+	<script>
+		<% if(product.state == "onsale"){ %>
+			var d = String("<%= product.enddate.getDate() %>");
+			var m = Number("<%= product.enddate.getMonth() %>"); 
+			var y = String("<%= product.enddate.getFullYear() %>"); 
+			var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+			// Set the date we're counting down to
+			var countDownDate = new Date(months[m] + " " + d + ", " + y + " 23:59:59").getTime();
+
+			// Update the count down every 1 second
+			var x = setInterval(function() {
+
+		    	// Get todays date and time
+		    	var now = new Date().getTime();
+		    
+		    	// Find the distance between now and the count down date
+		    	var distance = countDownDate - now;
+		    
+			    // Time calculations for days, hours, minutes and seconds
+			    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+			    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+			    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+		    
+		    	// Output the result in an element with id="demo"
+		    	document.getElementById("day").innerHTML = days + "d";
+		    	document.getElementById("hr").innerHTML = hours + "h";
+		    	document.getElementById("min").innerHTML = minutes + "m";
+		    	document.getElementById("sec").innerHTML = seconds + "s";
+		    
+		    	// If the count down is over, write some text 
+		    	if (distance < 0) {
+		        	clearInterval(x);
+		        	document.getElementById("timer").innerHTML = "EXPIRED";
+		        	window.location.href = "/changeowner/<%= product._id %>/<%= umaxid %>/<%= umax %>";
+		    	}
+			}, 1000);
+		<% } %>
+	</script>
+	<script type="text/javascript">
+		$('.scroll').scrollTop($('.scroll')[0].scrollHeight);
+	</script>
+<% include partials/footer %>

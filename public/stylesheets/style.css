@@ -1,0 +1,59 @@
+*{
+  margin:0;
+  padding:0;
+}
+body{
+  margin:0;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-size:17px;
+  color: lightgrey;
+  line-height:1.6;
+}
+
+#showcase{
+  background-image:url('http://telecoms.com/wp-content/blogs.dir/1/files/2018/03/Auction-770x285.jpg');
+  background-size:cover;
+  background-position:center;
+  height:100vh;
+  width: 100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:0 20px;
+  opacity: 1.9;
+  z-index: 1;
+  padding: 0;
+}
+
+#showcase h1{
+  font-size:60px;
+  line-height:1.2;
+  z-index: 5;
+}
+
+
+#showcase .button{
+  font-size:22px;
+  text-decoration:none;
+  color:#FFFFFF;
+  border:#FFFFFF 4px solid;
+  padding:10px 20px;
+  border-radius:10px;
+  margin-top:20px;
+  z-index: 5;
+}
+
+#showcase .button:hover{
+  background: white;
+  color: black;
+}
+.transparent{
+  z-index: 3;
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(233, 236, 239, 0.5);
+  position: absolute;
+
+}

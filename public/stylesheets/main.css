@@ -1,0 +1,91 @@
+		*{
+			margin:0;
+			padding: 0;
+		}
+		html{
+			padding: 0px;
+			border: 0px;
+		}
+		body{
+			background-image: url("bg.jpg");
+			margin: 0;
+			padding-top: 0;
+		}
+		input[type = "text"], input[type = "password"],input[type = "number"],input[type = "date"]{
+			border: none;
+			border-bottom: 1px solid red;
+			border-radius: 5px;
+			width: 40%;
+			margin: 20px;
+			background: none;
+		}
+		input[type = "file"]{
+			width: 40%;
+			background: none;
+		}
+		.myform {
+			margin: 0;
+    	    background-color: transparent;
+    		text-align: center;
+		}
+		.myform button {
+			width: 50%;
+		}
+		.scroll{
+			height: 300px;
+			overflow: auto;
+		}
+		.con{
+			background-color: rgba(255, 255, 255, 0.4);
+			margin-bottom: 8px;
+			padding: 8px;
+			box-shadow: 0px 0px 20px 2px darkgrey;
+			transition: all .1s ease-in-out;
+			word-wrap: break-word;
+		}
+		.con a{
+			float: right;
+			margin-left:10px; 
+		}
+		.con:hover {
+			background-color: rgba(100, 100, 100, 0.5); 
+			transform: scale(1.03);
+			z-index: 3;
+		}
+		.wrap {
+			word-wrap: break-word;
+		}
+		#timer{
+			margin: 15px;
+		}
+		.mytimer{
+			text-align: center;
+			font-size: 2em;
+			background-color: rgba(221, 221, 221, 0.2);
+			box-shadow: 0px 0px 20px 1px darkgrey;
+			transition: all .1s ease-in-out;
+
+		}
+		.mytimer:hover {
+			transform: scale(1.1);	
+		}
+		.mytimerindex{
+			text-align: center;
+			background-color: rgba(150, 150, 150, 0.6);
+			border-radius: 15px;
+			font-size: 20px;
+		}
+		.jumbotron{
+			background-color: rgba(233, 236, 239, 0.6);
+			box-shadow: 0px 0px 30px 2px darkgrey;
+		}
+		.card{
+			background-color: rgba(255, 255, 255, 0.5);
+			box-shadow: 0px 0px 30px 2px darkgrey;
+			transition: all .2s ease-in-out;
+		}
+		.card:hover { 
+			transform: scale(1.1); 
+			z-index: 2;
+			background-color: rgba(255, 255, 255, 1);
+		}

@@ -1,0 +1,61 @@
+<% include partials/header %>
+	<br>
+	<div class="myform">
+		<h1>Edit Your Product: <%= product.name %></h1>
+		<br>
+		<form action="/selling/<%= product._id %>" method="POST" enctype="multipart/form-data">
+			<div>
+				<input id="name" type="text" name="product[name]" value="<%= product.name %>">
+			</div>
+			<div>
+				<input type="number" name="product[pprice]" value="<%= product.pprice %>">
+			</div>
+			<div>
+				<center><h3>Image</h3></center>
+				<input type="file" name="image" accept="image/*">
+			</div>
+			<div>
+				<input type="text" name="product[des]" value="<%= product.des %>">
+			</div>
+			<div>
+				<input id="date" type="date" name="product[enddate]">
+			</div>	
+			<script type="text/javascript"> 
+				var d = String("<%= product.enddate.getDate() %>");
+				var m = String(Number("<%= product.enddate.getMonth() %>")+1); 
+				var y = String("<%= product.enddate.getFullYear() %>"); 
+				if(d.length == 1) d = "0" + d;
+				if(m.length == 1) m = "0" + m;
+				var date = y + "-" + m + "-" + d;
+				document.getElementById("date").value = date;
+				// var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+				// console.log(0+"<%= product.enddate%>");
+			</script>
+			<div>
+				<center><h3>State:</h3></center>
+				<h3>On Sale</h3><input id="onsale" type="radio" name="product[state]" value="onsale">
+				<h3>No</h3><input id="no" type="radio" name="product[state]" value="no">
+			</div>
+			<% if(product.state == "no"){ %>
+				<script type="text/javascript">document.getElementById("no").checked = true;</script>
+			<% } else { %>
+				<script type="text/javascript">document.getElementById("onsale").checked = true;</script>
+			<% } %>
+			<button type="submit" class="btn btn-outline-dark">Submit</button>
+		</form>
+			<script type="text/javascript">
+				var today = new Date();
+				var dd = today.getDate();
+				var mm = today.getMonth() + 1;
+				var yyyy = today.getFullYear();
+				if(dd < 10){
+					dd = '0' + dd;
+				}
+				if(mm < 10){
+					mm = '0' + mm;
+				}
+				today = yyyy + '-' + mm + '-' + dd;
+				document.getElementById("date").setAttribute("min", today);
+			</script>
+		</form>
+<% include partials/footer %>

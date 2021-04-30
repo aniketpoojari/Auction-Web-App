@@ -1,0 +1,89 @@
+<% include  partials/header %>
+	<h1><center>Profile Page of <%= user.username %></center></h1>
+	<center><a href="/selling/new" class="btn btn-primary btn-lg">Add New Product</a></center>
+	<br><br>
+	<div class="container">
+		<center><h1>Your On Sale Products</h1></center><br>
+		<div class="row text-center">	
+			<% product.forEach(function(product){ if(product.state == "onsale" && product.owner.username == user.username){ %>
+				<div class="col-lg-3 col-md-6 col-sm-12" style="margin-bottom: 15px;">
+							<div class="card">
+								<img class="card-img-top" src="<%= product.image %>">
+								<div class="card-body">  
+									<center>
+										<div id="<%= product._id %>">
+											<span class="mytimerindex" id="<%= product._id %>day"></span>
+											<span class="mytimerindex" id="<%= product._id %>hr"></span>
+											<span class="mytimerindex" id="<%= product._id %>min"></span>
+											<span class="mytimerindex" id="<%= product._id %>sec"></span>
+										</div>
+									</center>	
+									<a class="card-text btn btn-primary btn-lg btn-block" href="/selling/<%= product._id %>"><%= product.name %></a>
+									<div>Rs. <%= product.pprice %></div>
+								</div>
+							</div>
+						</div>
+			<%	}}); %>
+		</div>
+		<br><br>
+		<center><h1>Your Not On Sale Products</h1></center><br>
+		<div class="row text-center">	
+			<% product.forEach(function(product){ if(product.state != "onsale" && product.owner.username == user.username){ %>
+				<div class="col-lg-3 col-md-6 col-sm-12" style="margin-bottom: 15px;">
+							<div class="card">
+								<img class="card-img-top" src="<%= product.image %>">
+								<div class="card-body">  	
+									<a class="card-text btn btn-primary btn-lg btn-block" href="/selling/<%= product._id %>"><%= product.name %></a>
+									<div class="card-text">Rs. <%= product.pprice %></div>
+								</div>
+							</div>
+						</div>
+			<%	}}); %>
+		</div>
+
+
+	</div>
+	<script type="text/javascript">
+		<% product.forEach(function(product){ 
+				if(product.state == "onsale"){
+			%>
+			setInterval(function(){
+			var d = String("<%= product.enddate.getDate() %>");
+			var m = Number("<%= product.enddate.getMonth() %>"); 
+			var y = String("<%= product.enddate.getFullYear() %>"); 
+			var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+			// Set the date we're counting down to
+			var countDownDate = new Date(months[m] + " " + d + ", " + y + " 23:59:59").getTime();
+
+			// Update the count down every 1 second
+			var x = setInterval(function() {
+
+		    	// Get todays date and time
+		    	var now = new Date().getTime();
+		    
+		    	// Find the distance between now and the count down date
+		    	var distance = countDownDate - now;
+		    
+			    // Time calculations for days, hours, minutes and seconds
+			    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+			    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+			    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+		    
+		    	// Output the result in an element with id="demo"
+		    	document.getElementById("<%= product._id %>day").innerHTML = days+"d";
+		    	document.getElementById("<%= product._id %>hr").innerHTML = hours+"h";
+		    	document.getElementById("<%= product._id %>min").innerHTML = minutes+"m";
+		    	document.getElementById("<%= product._id %>sec").innerHTML = seconds+"s";
+	    
+		    	// If the count down is over, write some text 
+		    	if (distance < 0) {
+		        	clearInterval(x);
+		        	document.getElementById("<%= product._id %>").innerHTML = "EXPIRED";
+		        	window.location.href = "/selling/<%= product._id %>";
+		    	}
+			}, 1000);
+		}, 1000);
+		 <% } }); %> 		
+	</script>
+<% include  partials/footer %>
